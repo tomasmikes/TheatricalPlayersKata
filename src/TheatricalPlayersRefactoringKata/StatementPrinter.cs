@@ -20,7 +20,7 @@ public class StatementPrinter : IPrinter
             volumeCredits += GetVolumeCredits(perf.Audience, play.Type);
 
             // print line for this order
-            result += GetFormatSeats(play.Name, price, perf.Audience);
+            result += GetFormatSeats(play.Name,  Convert.ToDecimal(price / 100), perf.Audience);
 
             totalAmount += price;
         }
@@ -45,8 +45,8 @@ public class StatementPrinter : IPrinter
     private string GetFormatStatement(string invoiceCustomer) 
         => string.Format("Statement for {0}\n", invoiceCustomer);
 
-    private string GetFormatSeats(string playName, int price, int perfAudience)
-        => String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", playName, Convert.ToDecimal(price / 100), perfAudience);
+    private string GetFormatSeats(string playName, decimal price, int perfAudience)
+        => String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", playName, price, perfAudience);
 
     private string GetFormatEarnedCredits(int volumeCredits) 
         => String.Format("You earned {0} credits\n", volumeCredits);

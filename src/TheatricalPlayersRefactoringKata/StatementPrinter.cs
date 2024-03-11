@@ -15,7 +15,7 @@ namespace TheatricalPlayersRefactoringKata
 
             foreach(var perf in invoice.Performances) 
             {
-                var play = plays[perf.PlayID];
+                var play = plays[perf.PlayId];
                 var price = CalculatePrice(perf, play);
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);

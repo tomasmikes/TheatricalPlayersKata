@@ -52,6 +52,9 @@ namespace TheatricalPlayersRefactoringKata
                 default:
                     throw new Exception("unknown type: " + play.Type);
             }
+
+            return price;
         }
+        
     }
 }

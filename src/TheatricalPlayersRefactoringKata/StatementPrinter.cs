@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace TheatricalPlayersRefactoringKata
 {
-    public class StatementPrinter : IPrinter
+    public class StatementPrinter
     {
         readonly CultureInfo _cultureInfo = new CultureInfo("en-US");
         public string Print(Invoice invoice, Dictionary<string, Play> plays)
@@ -17,9 +17,13 @@ namespace TheatricalPlayersRefactoringKata
             {
                 var play = plays[perf.PlayId];
                 var price = CalculatePrice(perf, play);
-                var volume = GetVolumeCredits(play.Type, perf.Audience);
+                // add volume credits
+                volumeCredits += Math.Max(perf.Audience - 30, 0);
+                // add extra credit for every ten comedy attendees
+                if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+
                 // print line for this order
-                result += GetFormatSeats(play.Name, Convert.ToDecimal(price / 100), perf.Audience);
+                result += GetFormatSeats(play.Name, price, perf.Audience);
 
                 totalAmount += price;
             }
@@ -29,18 +33,9 @@ namespace TheatricalPlayersRefactoringKata
             return result;
         }
 
-        private int GetVolumeCredits(string type, int perfAudience)
-        {
-            // add volume credits
-            var volumeCredits = Math.Max(perfAudience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy" == type) volumeCredits += (int)Math.Floor((decimal)perfAudience / 5);
-            return volumeCredits;
-        }
-
         private string GetFormatStatement(string invoiceCustomer) => string.Format("Statement for {0}\n", invoiceCustomer);
 
-        private string GetFormatSeats(string playName, decimal price, int perfAudience) => String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", playName, price, perfAudience);
+        private string GetFormatSeats(string playName, int price, int perfAudience) => String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", playName, Convert.ToDecimal(price / 100), perfAudience);
 
         private string GetFormatEarnedCredits(int volumeCredits) => String.Format("You earned {0} credits\n", volumeCredits);
 

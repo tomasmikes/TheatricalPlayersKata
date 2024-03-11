@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 
-namespace TheatricalPlayersRefactoringKata
+namespace TheatricalPlayersRefactoringKata;
+
+public class Invoice
 {
-    public class Invoice
+    public string Customer { get; set; }
+
+    public List<Performance> Performances { get; set; }
+
+    public Invoice(string customer, List<Performance> performance)
     {
-        public string Customer { get; set; }
-
-        public List<Performance> Performances { get; set; }
-
-        public Invoice(string customer, List<Performance> performance)
-        {
-            this.Customer = customer;
-            this.Performances = performance;
-        }
-
+        this.Customer = customer;
+        this.Performances = performance;
     }
+
 }

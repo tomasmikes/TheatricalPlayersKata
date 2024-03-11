@@ -17,10 +17,7 @@ namespace TheatricalPlayersRefactoringKata
             {
                 var play = plays[perf.PlayId];
                 var price = CalculatePrice(perf, play);
-                // add volume credits
-                volumeCredits += Math.Max(perf.Audience - 30, 0);
-                // add extra credit for every ten comedy attendees
-                if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
+                volumeCredits += GetVolumeCredits(perf.Audience, play.Type);
 
                 // print line for this order
                 result += GetFormatSeats(play.Name, price, perf.Audience);
@@ -31,6 +28,18 @@ namespace TheatricalPlayersRefactoringKata
             result += GetFormatAmountOwned(totalAmount);
             result += GetFormatEarnedCredits(volumeCredits);
             return result;
+        }
+
+        private int GetVolumeCredits(int audience, string playType)
+        {
+            // add volume credits
+            var volumeCredits = Math.Max(audience - 30, 0);
+            // add extra credit for every ten comedy attendees
+            if ("comedy" == playType)
+            {
+                volumeCredits += (int)Math.Floor((decimal)audience / 5);
+            }
+            return volumeCredits;
         }
 
         private string GetFormatStatement(string invoiceCustomer) => string.Format("Statement for {0}\n", invoiceCustomer);

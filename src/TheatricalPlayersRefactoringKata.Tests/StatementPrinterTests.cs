@@ -23,9 +23,10 @@ namespace TheatricalPlayersRefactoringKata.Tests
             
             StatementPrinter statementPrinter = new StatementPrinter();
             var result = statementPrinter.Print(invoice, plays);
-            
+
             Approvals.Verify(result);
         }
+        
         [Fact]
         public void test_statement_with_new_play_types()
         {

@@ -4,18 +4,13 @@ namespace TheatricalPlayersRefactoringKata;
 
 public class PlayTypeCalculator
 {
-    public int CalculateByType(string type, int audience)
-    {
-        switch (type)
+    public int CalculateByType(string type, int audience) =>
+        type switch
         {
-            case "tragedy":
-                return CalculateTragedy(audience);
-            case "comedy":
-                return CalculateComedy(audience);
-            default:
-                throw new Exception("unknown type: " + type);
-        }
-    }
+            "tragedy" => CalculateTragedy(audience),
+            "comedy" => CalculateComedy(audience),
+            _ => throw new Exception("unknown type: " + type)
+        };
 
     private int CalculateTragedy(int audience)
     {

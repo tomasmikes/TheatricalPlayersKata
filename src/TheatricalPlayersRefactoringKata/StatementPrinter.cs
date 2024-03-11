@@ -11,7 +11,7 @@ namespace TheatricalPlayersRefactoringKata
         {
             var totalAmount = 0;
             var volumeCredits = 0;
-            var result = string.Format("Statement for {0}\n", invoice.Customer);
+            var result = GetFormatStatement(invoice.Customer);
 
             foreach(var perf in invoice.Performances) 
             {
@@ -23,13 +23,21 @@ namespace TheatricalPlayersRefactoringKata
                 if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
 
                 // print line for this order
-                result += String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(price / 100), perf.Audience);
+                result += GetFormatSeats(play.Name, price, perf.Audience);
+
                 totalAmount += price;
             }
-            result += String.Format(_cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
-            result += String.Format("You earned {0} credits\n", volumeCredits);
+
+            result += GetFormatAmountOwned(totalAmount);
+            result += GetFormatEarnedCredits(volumeCredits);
             return result;
         }
+
+        private string GetFormatStatement(string invoiceCustomer) => string.Format("Statement for {0}\n", invoiceCustomer);
+
+        private string GetFormatSeats(string playName, int price, int perfAudience) => String.Format(_cultureInfo, "  {0}: {1:C} ({2} seats)\n", playName, Convert.ToDecimal(price / 100), perfAudience);
+
+        private string GetFormatEarnedCredits(int volumeCredits) => String.Format("You earned {0} credits\n", volumeCredits);
 
         private int CalculatePrice(Performance perf, Play play)
         {
@@ -56,10 +64,6 @@ namespace TheatricalPlayersRefactoringKata
             return price;
         }
 
-        private string GetFormatAmountOwned()
-        {
-            return "";
-        }
-        
+        private string GetFormatAmountOwned(int totalAmount) => String.Format(_cultureInfo, "Amount owed is {0:C}\n", Convert.ToDecimal(totalAmount / 100));
     }
 }

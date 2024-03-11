@@ -23,7 +23,7 @@ namespace TheatricalPlayersRefactoringKata.Tests
             
             StatementPrinter statementPrinter = new StatementPrinter();
             var result = statementPrinter.Print(invoice, plays);
-
+            
             Approvals.Verify(result);
         }
         [Fact]
